@@ -7,6 +7,18 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
     backgroundColor: "#ABB562",
+    fontFamily: "TestingFont",
+  },
+
+  logo: {
+    width: 60,
+    height: 60,
+  },
+
+  logoText: {
+    fontSize: 25,
+    color: "#fff",
+    fontWeight: "900",
   },
 
   header: {

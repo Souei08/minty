@@ -4,7 +4,14 @@ import globalStyles from "../../assets/styles/global.css";
 // Imports
 import { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  Alert,
+  Image,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 export default function Login({ navigation }) {
   const [username, setUsername] = useState("");
@@ -32,7 +39,20 @@ export default function Login({ navigation }) {
 
   return (
     <View style={globalStyles.container}>
-      <Text>MINTY LOGO</Text>
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+        }}
+      >
+        <Image
+          style={globalStyles.logo}
+          source={require("../../assets/images/icons/icon.png")}
+        />
+        <Text style={globalStyles.logoText}>Minty</Text>
+      </View>
+
       <View style={{ width: "70%" }}>
         <TextInput
           style={globalStyles.input}
