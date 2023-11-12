@@ -1,30 +1,28 @@
-// Styles
-import { Link } from "expo-router";
-import globalStyles from "./assets/styles/global.css";
+// Screens
+import HomeScreen from "./app/screens/HomeScreen";
+import LoginScreen from "./app/screens/LoginScreen";
 
-// React Native Imports
-import { StatusBar } from "expo-status-bar";
-import { Text, TouchableOpacity, View } from "react-native";
+// Imports
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <View style={globalStyles.container}>
-      <Text>MINTY LOGO</Text>
-      <View style={{ alignItems: "center" }}>
-        <Text style={[globalStyles.header, { marginBottom: 10 }]}>
-          Welcome To Minty
-        </Text>
-        <Text style={globalStyles.paragraph}>
-          Your Gateway to Eco-Friendly Shopping
-        </Text>
-      </View>
-      <Link href="/login" asChild>
-        <TouchableOpacity style={globalStyles.buttonContainer}>
-          <Text style={globalStyles.buttonText}>Start Shopping</Text>
-        </TouchableOpacity>
-      </Link>
-
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
