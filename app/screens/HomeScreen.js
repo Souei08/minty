@@ -1,42 +1,35 @@
+// Imports
+import { StatusBar } from "expo-status-bar";
+import { Text, View } from "react-native";
+
 // Styles
 import globalStyles from "../../assets/styles/global.css";
 
-// Imports
-import { StatusBar } from "expo-status-bar";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+// Components
+import MintyLogo from "../components/MintyLogo";
+import CustomButton from "../components/CustomButton";
 
 export default function Home({ navigation }) {
+  const handleNavigateLogin = () => {
+    navigation.navigate("Login");
+  };
+
   return (
     <View style={globalStyles.container}>
-      <View
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-        }}
-      >
-        <Image
-          style={globalStyles.logo}
-          source={require("../../assets/images/icons/icon.png")}
-        />
-        <Text style={globalStyles.logoText}>Minty</Text>
-      </View>
-
+      <MintyLogo />
       <View style={{ alignItems: "center" }}>
         <Text style={[globalStyles.header, { marginBottom: 10 }]}>
           Welcome To Minty
         </Text>
-        <Text style={globalStyles.body}>
+        <Text style={[globalStyles.body, { marginBottom: 30 }]}>
           Your Gateway to Eco-Friendly Shopping
         </Text>
-      </View>
 
-      <TouchableOpacity
-        style={globalStyles.buttonContainer}
-        onPress={() => navigation.navigate("Login")}
-      >
-        <Text style={globalStyles.buttonText}>Start Shopping</Text>
-      </TouchableOpacity>
+        <CustomButton
+          onPress={handleNavigateLogin}
+          buttonText="Start Shopping"
+        />
+      </View>
 
       <StatusBar style="auto" />
     </View>

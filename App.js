@@ -6,13 +6,14 @@ import LoginScreen from "./app/screens/LoginScreen";
 import { useFonts } from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import DashboardScreen from "./app/screens/DashboardScreen";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
 
   const [fontsLoaded] = useFonts({
-    'Montserrat': require("./assets/fonts/Montserrat.ttf"),
-    'TestingFont': require("./assets/fonts/Agbalumo-Regular.ttf"),
+    Montserrat: require("./assets/fonts/Montserrat.ttf"),
+    TestingFont: require("./assets/fonts/Agbalumo-Regular.ttf"),
   });
 
   if (!fontsLoaded) {
@@ -30,6 +31,11 @@ export default function App() {
         <Stack.Screen
           name="Login"
           component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Dashboard"
+          component={DashboardScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

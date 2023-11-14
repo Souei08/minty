@@ -1,17 +1,14 @@
-// Styles
-import globalStyles from "../../assets/styles/global.css";
-
 // Imports
 import { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import {
-  Alert,
-  Image,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
+
+// Styles
+import globalStyles from "../../assets/styles/global.css";
+
+// Components
+import MintyLogo from "../components/MintyLogo";
+import CustomButton from "../components/CustomButton";
 
 export default function Login({ navigation }) {
   const [username, setUsername] = useState("");
@@ -31,27 +28,15 @@ export default function Login({ navigation }) {
       return;
     }
 
-    Alert.alert("Username:", username + " " + password);
+    navigation.navigate("Dashboard");
 
-    // setUsername("");
-    // setPassword("");
+    setUsername("");
+    setPassword("");
   };
 
   return (
     <View style={globalStyles.container}>
-      <View
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-        }}
-      >
-        <Image
-          style={globalStyles.logo}
-          source={require("../../assets/images/icons/icon.png")}
-        />
-        <Text style={globalStyles.logoText}>Minty</Text>
-      </View>
+      <MintyLogo />
 
       <View style={{ width: "70%" }}>
         <TextInput
@@ -68,12 +53,7 @@ export default function Login({ navigation }) {
           secureTextEntry
         />
 
-        <TouchableOpacity
-          style={globalStyles.buttonContainer}
-          onPress={handleSubmit}
-        >
-          <Text style={globalStyles.buttonText}>Login</Text>
-        </TouchableOpacity>
+        <CustomButton onPress={handleSubmit} buttonText={"Login"} />
 
         <Text
           style={[globalStyles.body, { textAlign: "center", marginTop: 10 }]}
