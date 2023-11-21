@@ -8,19 +8,28 @@
     "ios": "expo start --ios",
     "web": "expo start --web"
   },
+  "prettier": {
+    "singleQuote": true,
+    "quoteProps": "as-needed"
+  },
   "dependencies": {
+    "@expo-google-fonts/poppins": "^0.2.3",
+    "@expo/webpack-config": "^19.0.0",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.17",
     "expo": "~49.0.15",
+    "expo-app-loading": "^2.1.1",
+    "expo-font": "~11.4.0",
+    "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
     "react": "18.2.0",
     "react-native": "0.72.6",
     "react-native-web": "^0.19.9",
-    "react-scripts": "^5.0.1",
-    "@expo/webpack-config": "^19.0.0"
+    "react-scripts": "^5.0.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "prettier": "^3.1.0"
   },
   "private": true
 }

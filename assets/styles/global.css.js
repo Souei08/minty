@@ -1,68 +1,85 @@
 // Imports
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#ABB562",
-    fontFamily: "TestingFont",
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#4F6F52',
   },
 
   logo: {
-    width: 60,
-    height: 60,
+    width: 80,
+    height: 70,
   },
 
   logoText: {
-    fontSize: 25,
-    color: "#fff",
-    fontWeight: "900",
+    marginTop: 10,
+    fontSize: 43,
+    color: '#fff',
+    fontFamily: 'PoppinsBold',
   },
 
   header: {
-    fontSize: 32,
-    marginBottom: 10,
-    color: "#fff",
-    fontWeight: "900",
+    marginTop: 5,
+    fontSize: 34,
+    color: '#fff',
+    fontFamily: 'PoppinsBold',
   },
 
   subHeading: {
-    fontSize: 24,
-    marginBottom: 10,
-    color: "#fff",
+    marginTop: 5,
+    fontSize: 18,
+    color: '#fff',
+    fontFamily: 'PoppinsBold',
   },
 
   body: {
-    fontSize: 15,
-    marginBottom: 10,
-    color: "#fff",
+    marginTop: 10,
+    fontSize: 14,
+    color: '#fff',
+    fontFamily: 'PoppinsRegular',
   },
 
   input: {
-    borderRadius: 10,
+    paddingTop: 5,
+    borderRadius: 4,
     paddingLeft: 15,
-    borderColor: "#fff",
+    borderColor: '#fff',
     borderWidth: 1,
     fontSize: 15,
     marginBottom: 20,
     height: 40,
-    color: "#fff",
+    color: '#fff',
+    fontFamily: 'PoppinsRegular',
+  },
+
+  inputWhiteBackground: {
+    paddingTop: 5,
+    borderRadius: 4,
+    paddingLeft: 15,
+    borderColor: '#F1F1F1',
+    borderWidth: 1,
+    fontSize: 15,
+    marginBottom: 20,
+    height: 40,
+    color: '#000',
+    backgroundColor: '#F1F1F1',
   },
 
   buttonContainer: {
-    backgroundColor: "#fff",
+    backgroundColor: '#FFCD17',
     paddingVertical: 10,
     paddingHorizontal: 20,
-    borderRadius: 15,
+    borderRadius: 4,
   },
 
   buttonText: {
-    color: "#ABB562",
-    fontWeight: "bold",
-    fontSize: 16,
-    textAlign: "center",
+    color: '#000',
+    fontSize: 14,
+    textAlign: 'center',
+    fontFamily: 'PoppinsBold',
   },
 });
 

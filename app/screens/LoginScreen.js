@@ -1,18 +1,18 @@
 // Imports
-import { useState } from "react";
-import { StatusBar } from "expo-status-bar";
-import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { useState } from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { Alert, Text, TextInput, View } from 'react-native';
 
 // Styles
-import globalStyles from "../../assets/styles/global.css";
+import globalStyles from '../../assets/styles/global.css';
 
 // Components
-import MintyLogo from "../components/MintyLogo";
-import CustomButton from "../components/CustomButton";
+import MintyLogo from '../components/MintyLogo';
+import CustomButton from '../components/CustomButton';
 
-export default function Login({ navigation }) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+export default function Login({ navigation, onLayoutRootView }) {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleUsernameChange = (text) => {
     setUsername(text);
@@ -24,26 +24,27 @@ export default function Login({ navigation }) {
 
   const handleSubmit = () => {
     if (!username || !password) {
-      Alert.alert("Please enter both username and password");
+      Alert.alert('Please enter both username and password');
       return;
     }
 
-    navigation.navigate("Dashboard");
+    navigation.navigate('Dashboard');
 
-    setUsername("");
-    setPassword("");
+    setUsername('');
+    setPassword('');
   };
 
   return (
-    <View style={globalStyles.container}>
+    <View style={globalStyles.container} onLayout={onLayoutRootView}>
       <MintyLogo />
 
-      <View style={{ width: "70%" }}>
+      <View style={{ width: '70%' }}>
         <TextInput
           style={globalStyles.input}
           placeholder="Username"
           onChangeText={handleUsernameChange}
           value={username}
+          placeholderTextColor="#fff"
         />
         <TextInput
           style={globalStyles.input}
@@ -51,21 +52,18 @@ export default function Login({ navigation }) {
           onChangeText={handlePasswordChange}
           value={password}
           secureTextEntry
+          placeholderTextColor="#fff"
         />
 
-        <CustomButton onPress={handleSubmit} buttonText={"Login"} />
+        <CustomButton onPress={handleSubmit} buttonText={'Login'} />
 
-        <Text
-          style={[globalStyles.body, { textAlign: "center", marginTop: 10 }]}
-        >
+        <Text style={[globalStyles.body, { textAlign: 'center' }]}>
           Forgot Password
         </Text>
       </View>
 
       <View>
-        <Text
-          style={[globalStyles.body, { textAlign: "center", marginTop: 10 }]}
-        >
+        <Text style={[globalStyles.body, { textAlign: 'center' }]}>
           Don’t have account? Sign up now.
         </Text>
       </View>
