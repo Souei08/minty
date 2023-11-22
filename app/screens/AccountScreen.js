@@ -1,10 +1,10 @@
 // Imports
 import { Text, View } from 'react-native';
 
-export default function RegisterScreen() {
+export default function AccountScreen() {
   return (
     <View>
-      <Text>Register Screen</Text>
+      <Text>Profile Screen</Text>
     </View>
   );
 }

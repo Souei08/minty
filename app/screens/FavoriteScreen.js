@@ -1,10 +1,10 @@
 // Imports
 import { Text, View } from 'react-native';
 
-export default function RegisterScreen() {
+export default function FavoriteScreen() {
   return (
     <View>
-      <Text>Register Screen</Text>
+      <Text>Favorite Screen</Text>
     </View>
   );
 }

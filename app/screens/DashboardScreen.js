@@ -7,6 +7,9 @@ import dashboardStyles from '../../assets/styles/dashboard.css';
 import CustomButton from '../components/CustomButton';
 import styles from '../../assets/styles/global.css';
 
+// App Imports
+import BottomTabNavigator from '../components/BottomTabNavigator';
+
 export default function DashboardScreen({ onLayoutRootView }) {
   // Test Data
   const DummyTestProducts = Array.from({ length: 20 }, (_, i) => {
@@ -14,7 +17,7 @@ export default function DashboardScreen({ onLayoutRootView }) {
     return {
       id: i + 1,
       productImage: require(`../../assets/images/TestProducts/renzle.jpg`),
-      productName: `Natulog Na Renzle ${i + 1}`,
+      productName: `Product ${i + 1}`,
       productPrice: `₱ ${randomPrice}`,
     };
   });
@@ -53,7 +56,14 @@ export default function DashboardScreen({ onLayoutRootView }) {
               buttonContainerStyle={dashboardStyles.OfferCardButtonContainer}
             />
           </View>
-          <View>{/* Random Mascot */}</View>
+          <View style={dashboardStyles.OfferCardMascotContainer}>
+            <Image
+              source={require(
+                `../../assets/images/TestProducts/card-mascot.png`,
+              )}
+              style={dashboardStyles.OfferCardMascotImg}
+            />
+          </View>
         </View>
       </View>
 
@@ -72,7 +82,12 @@ export default function DashboardScreen({ onLayoutRootView }) {
             />
 
             <View style={dashboardStyles.ItemsProductTextContainer}>
-              <Text style={[styles.body, { color: '#000' }]}>
+              <Text
+                style={[
+                  styles.body,
+                  { color: '#000', fontFamily: 'PoppinsBold' },
+                ]}
+              >
                 {product.productName}
               </Text>
               <Text style={[styles.body, { color: '#000', marginTop: 0 }]}>
@@ -83,6 +98,7 @@ export default function DashboardScreen({ onLayoutRootView }) {
         ))}
       </View>
 
+      <BottomTabNavigator />
       <StatusBar style="auto" />
     </ScrollView>
   );

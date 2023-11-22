@@ -35,6 +35,7 @@ const dashboardStyles = StyleSheet.create({
     marginHorizontal: 30,
     marginBottom: 20,
     borderRadius: 10,
+    position: 'relative',
   },
 
   OfferCardInner: {
@@ -47,6 +48,17 @@ const dashboardStyles = StyleSheet.create({
     width: 108,
     paddingVertical: 5,
     paddingHorizontal: 10,
+  },
+
+  OfferCardMascotContainer: {
+    position: 'absolute',
+    right: -20,
+    bottom: -20,
+  },
+
+  OfferCardMascotImg: {
+    width: 150,
+    height: 155,
   },
 
   ItemsContainer: {
