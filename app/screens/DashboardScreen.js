@@ -98,7 +98,7 @@ export default function DashboardScreen({ onLayoutRootView }) {
         ))}
       </View>
 
-      <BottomTabNavigator />
+      {/* <BottomTabNavigator /> */}
       <StatusBar style="auto" />
     </ScrollView>
   );
