@@ -33,7 +33,7 @@ const dashboardStyles = StyleSheet.create({
     backgroundColor: '#4F6F52',
     padding: 20,
     marginHorizontal: 30,
-    marginBottom: 20,
+    marginVertical: 30,
     borderRadius: 10,
     position: 'relative',
   },
