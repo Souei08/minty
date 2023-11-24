@@ -4,11 +4,11 @@ import { StatusBar } from 'expo-status-bar';
 import { Alert, Text, TextInput, View } from 'react-native';
 
 // Styles
-import globalStyles from '../../assets/styles/global.css';
+import globalStyles from '../../../assets/styles/global.css';
 
 // Components
-import MintyLogo from '../components/MintyLogo';
-import CustomButton from '../components/CustomButton';
+import MintyLogo from '../../components/MintyLogo';
+import CustomButton from '../../components/CustomButton';
 
 export default function Login({ navigation, onLayoutRootView }) {
   const [username, setUsername] = useState('');

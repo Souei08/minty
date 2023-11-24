@@ -4,19 +4,20 @@ import { Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 // Screens
-import HomeScreen from '../screens/HomeScreen';
-import CartScreen from '../screens/CartScreen';
-import FavoriteScreen from '../screens/FavoriteScreen';
-import AccountScreen from '../screens/AccountScreen';
+import DashboardScreen from '../screens/dashboard/DashboardScreen';
+import CartScreen from '../screens/dashboard/CartScreen';
+import FavoriteScreen from '../screens/dashboard/FavoriteScreen';
+import AccountScreen from '../screens/dashboard/AccountScreen';
 
 const Tab = createBottomTabNavigator();
 
 export default function BottomTabNavigator() {
   return (
     <Tab.Navigator>
-      {/* <Tab.Screen
+      <Tab.Screen
         name="Home"
-       
+        component={DashboardScreen}
+        options={{ headerShown: false }}
         // options={{
         //   tabBarLabel: 'Home',
         //   tabBarIcon: ({ color, size }) => (
@@ -26,10 +27,11 @@ export default function BottomTabNavigator() {
         //     />
         //   ),
         // }}
-      /> */}
+      />
       <Tab.Screen
         name="Cart"
         component={CartScreen}
+        options={{ headerShown: false }}
         // options={{
         //   tabBarLabel: 'Cart',
         //   tabBarIcon: ({ color, size }) => (
@@ -43,6 +45,7 @@ export default function BottomTabNavigator() {
       <Tab.Screen
         name="Favorite"
         component={FavoriteScreen}
+        options={{ headerShown: false }}
         // options={{
         //   tabBarLabel: 'Favorite',
         //   tabBarIcon: ({ color, size }) => (
@@ -56,6 +59,7 @@ export default function BottomTabNavigator() {
       <Tab.Screen
         name="Account"
         component={AccountScreen}
+        options={{ headerShown: false }}
         // options={{
         //   tabBarLabel: 'Account',
         //   tabBarIcon: ({ color, size }) => (

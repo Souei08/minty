@@ -3,12 +3,9 @@ import { StatusBar } from 'expo-status-bar';
 import { Image, ScrollView, Text, TextInput, View } from 'react-native';
 
 // Styles
-import dashboardStyles from '../../assets/styles/dashboard.css';
-import CustomButton from '../components/CustomButton';
-import styles from '../../assets/styles/global.css';
-
-// App Imports
-import BottomTabNavigator from '../components/BottomTabNavigator';
+import dashboardStyles from '../../../assets/styles/dashboard.css';
+import CustomButton from '../../components/CustomButton';
+import styles from '../../../assets/styles/global.css';
 
 export default function DashboardScreen({ onLayoutRootView }) {
   // Test Data
@@ -16,7 +13,7 @@ export default function DashboardScreen({ onLayoutRootView }) {
     const randomPrice = (Math.random() * (10000 - 5000) + 10).toFixed(2);
     return {
       id: i + 1,
-      productImage: require(`../../assets/images/TestProducts/renzle.jpg`),
+      productImage: require(`../../../assets/images/TestProducts/renzle.jpg`),
       productName: `Product ${i + 1}`,
       productPrice: `₱ ${randomPrice}`,
     };
@@ -57,12 +54,12 @@ export default function DashboardScreen({ onLayoutRootView }) {
             />
           </View>
           <View style={dashboardStyles.OfferCardMascotContainer}>
-            <Image
+            {/* <Image
               source={require(
                 `../../assets/images/TestProducts/card-mascot.png`,
               )}
               style={dashboardStyles.OfferCardMascotImg}
-            />
+            /> */}
           </View>
         </View>
       </View>
@@ -98,7 +95,6 @@ export default function DashboardScreen({ onLayoutRootView }) {
         ))}
       </View>
 
-      {/* <BottomTabNavigator /> */}
       <StatusBar style="auto" />
     </ScrollView>
   );

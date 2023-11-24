@@ -1,12 +1,12 @@
 // Screens
-import HomeScreen from './app/screens/HomeScreen';
-import LoginScreen from './app/screens/LoginScreen';
+import BottomTabNavigator from './app/components/BottomTabNavigator';
+import WelcomeScreen from './app/screens/auth/WelcomeScreen';
+import LoginScreen from './app/screens/auth/LoginScreen';
 
 // Imports
 import { useCallback } from 'react';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import DashboardScreen from './app/screens/DashboardScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -44,7 +44,7 @@ export default function App() {
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" options={{ headerShown: false }}>
           {(props) => (
-            <HomeScreen {...props} onLayoutRootView={onLayoutRootView} />
+            <WelcomeScreen {...props} onLayoutRootView={onLayoutRootView} />
           )}
         </Stack.Screen>
         <Stack.Screen name="Login" options={{ headerShown: false }}>
@@ -54,7 +54,10 @@ export default function App() {
         </Stack.Screen>
         <Stack.Screen name="Dashboard" options={{ headerShown: false }}>
           {(props) => (
-            <DashboardScreen {...props} onLayoutRootView={onLayoutRootView} />
+            <BottomTabNavigator
+              {...props}
+              onLayoutRootView={onLayoutRootView}
+            />
           )}
         </Stack.Screen>
       </Stack.Navigator>
