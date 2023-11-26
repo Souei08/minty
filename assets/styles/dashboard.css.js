@@ -40,7 +40,9 @@ const dashboardStyles = StyleSheet.create({
 
   OfferCardInner: {
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   OfferCardButtonContainer: {

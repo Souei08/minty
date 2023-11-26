@@ -43,24 +43,14 @@ export default function DashboardScreen({ onLayoutRootView }) {
       {/* Dashboard Card */}
       <View style={dashboardStyles.OfferCard}>
         <View style={dashboardStyles.OfferCardInner}>
-          <View style={{ width: '60%' }}>
-            <Text style={styles.body}>
-              Special Limited-Time Offer: Go Green with Savings!{' '}
-            </Text>
-            <CustomButton
-              buttonText={'% Up to 50%'}
-              buttonTextStyle={styles.body}
-              buttonContainerStyle={dashboardStyles.OfferCardButtonContainer}
-            />
-          </View>
-          <View style={dashboardStyles.OfferCardMascotContainer}>
-            {/* <Image
-              source={require(
-                `../../assets/images/TestProducts/card-mascot.png`,
-              )}
-              style={dashboardStyles.OfferCardMascotImg}
-            /> */}
-          </View>
+          <Text style={[styles.subHeading, { textAlign: 'center' }]}>
+            Special Limited-Time Offer: Go Green with Savings!{' '}
+          </Text>
+          <CustomButton
+            buttonText={'% Up to 50%'}
+            buttonTextStyle={styles.body}
+            buttonContainerStyle={dashboardStyles.OfferCardButtonContainer}
+          />
         </View>
       </View>
 
