@@ -1,7 +1,14 @@
 // Imports
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Checkbox from 'expo-checkbox';
-import { Text, View, TextInput, ScrollView, Image } from 'react-native';
+import {
+  Text,
+  View,
+  TextInput,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 
 // Styles
 import dashboardStyles from '../../../assets/styles/dashboard.css';
@@ -9,7 +16,7 @@ import styles from '../../../assets/styles/global.css';
 import cartStyles from '../../../assets/styles/cart.css.js';
 
 export default function CartScreen() {
-  const [isChecked, setChecked] = useState([]);
+  const [checkedItems, setCheckedItems] = useState({});
 
   // Test Data
   const DummyTestProducts = Array.from({ length: 50 }, (_, i) => {
@@ -17,21 +24,16 @@ export default function CartScreen() {
       id: i + 1,
       productName: `Product ${i + 1}`,
       productImage: require(`../../../assets/images/TestProducts/renzle.jpg`),
-      productPrice: `₱ 100`,
+      productPrice: `₱ 200`,
     };
   });
 
-  const FindSelectedItems = (id) => {
-    const found = isChecked.find((element) => element.id > id);
-
-    console.log(id);
-
-    return found;
-  };
-
-  useEffect(() => {
-    console.log(isChecked);
-  }, [isChecked]);
+  const totalPrice = Object.values(checkedItems).reduce((acc, isChecked) => {
+    if (isChecked) {
+      return acc + 100;
+    }
+    return acc;
+  }, 0);
 
   return (
     <View style={dashboardStyles.Container}>
@@ -65,37 +67,21 @@ export default function CartScreen() {
               <Checkbox
                 color="#FFCD17"
                 style={cartStyles.ItemsCheckbox}
-                value={FindSelectedItems(product.id) ? true : false}
+                value={!!checkedItems[product.id]}
                 onValueChange={(val) => {
-                  console.log(product.id);
+                  console.log(`Checkbox ID: ${product.id}, Value: ${val}`);
 
-                  setChecked([
-                    ...isChecked,
-                    {
-                      id: product.id,
-                      value: val,
-                    },
-                  ]);
+                  setCheckedItems((prevCheckedItems) => {
+                    const updatedItems = { ...prevCheckedItems };
 
-                  // if (val) {
-                  //   console.log(isChecked);
-                  //   setChecked([
-                  //     ...isChecked,
-                  //     {
-                  //       value: val,
-                  //       id: product.id,
-                  //     },
-                  //   ]);
-                  // } else {
-                  //   console.log('false');
-                  //   // setChecked([
-                  //   //   ...isChecked,
-                  //   //   {
-                  //   //     value: val,
-                  //   //     id: product.id,
-                  //   //   },
-                  //   // ]);
-                  // }
+                    if (val) {
+                      updatedItems[product.id] = true;
+                    } else {
+                      delete updatedItems[product.id];
+                    }
+
+                    return updatedItems;
+                  });
                 }}
               />
 
@@ -120,6 +106,44 @@ export default function CartScreen() {
           ))}
         </View>
       </ScrollView>
+
+      {/* Checkout Total Container  */}
+      <View style={cartStyles.CheckoutContainer}>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <View style={{ flex: 1 }}>
+            <Text
+              style={[
+                styles.body,
+                {
+                  color: '#000',
+                  textAlign: 'center',
+                  fontFamily: 'PoppinsBold',
+                },
+              ]}
+            >
+              Amount Price: ₱ {totalPrice}
+            </Text>
+          </View>
+          <TouchableOpacity
+            style={[cartStyles.CheckoutButton, { marginLeft: 10 }]}
+          >
+            <Text
+              style={[
+                styles.body,
+                { color: '#000', fontFamily: 'PoppinsBold' },
+              ]}
+            >
+              Checkout
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </View>
   );
 }
