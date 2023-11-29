@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
 
 const userSchema = mongoose.Schema(
   {
@@ -27,7 +28,6 @@ const userSchema = mongoose.Schema(
     role: {
       type: String,
       enum: ['seller', 'buyer'],
-      unique: true,
     },
     password: {
       type: String,
@@ -38,6 +38,19 @@ const userSchema = mongoose.Schema(
     timestamps: true,
   },
 );
+
+userSchema.pre('save', async function (next) {
+  try {
+    if (this.isModified('password')) {
+      const saltRounds = 10;
+      this.password = await bcrypt.hash(this.password, saltRounds);
+    }
+    next();
+  } catch (error) {
+    console.error('Error hashing password:', error);
+    next(error);
+  }
+});
 
 const Users = mongoose.model('Users', userSchema);
 

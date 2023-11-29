@@ -13,14 +13,30 @@ export const getUsers = async (req, res) => {
 };
 
 export const registerUser = async (req, res) => {
-  const productData = req.body;
-  const newProduct = new Products(productData);
+  const { firstName, lastName, username, email, address, role, password } =
+    req.body;
+
   try {
-    await newProduct.save();
-    res.status(201).json(newProduct);
-  } catch (error) {
-    res.status(409).json({
-      message: error.message,
+    const existingUser = await Users.findOne({ email: email });
+
+    if (existingUser) {
+      return res.status(400).json({ message: 'Email already registered' });
+    }
+
+    const newUser = new Users({
+      firstName,
+      lastName,
+      username,
+      email,
+      address,
+      role,
+      password,
     });
+
+    await newUser.save();
+
+    res.status(201).json({ message: 'Registration successful' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
