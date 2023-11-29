@@ -2,9 +2,15 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import dotenv from 'dotenv';
 
 import productRoutes from './routes/products.js';
 import userRoutes from './routes/users.js';
+import authMiddleware from './middleware/authMiddleware.js';
+
+dotenv.config();
+
+const mongoAtlasURI = process.env.MONGODB_ATLAS;
 
 const app = express();
 
@@ -13,11 +19,10 @@ app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 
 app.use(cors());
 
-app.use('/products', productRoutes);
+app.use('/products', authMiddleware.verifyToken, productRoutes);
 app.use('/users', userRoutes);
 
-const CONNECTION_URL =
-  'mongodb+srv://J08:j08123@cluster0.j4picfp.mongodb.net/?retryWrites=true&w=majority';
+const CONNECTION_URL = mongoAtlasURI;
 const PORT = process.env.PORT || 5000;
 
 mongoose
