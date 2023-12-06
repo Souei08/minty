@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Alert, Text, TextInput, View } from 'react-native';
+import { useToast } from 'react-native-toast-message';
 
 // Styles
 import globalStyles from '../../../assets/styles/global.css';
@@ -9,6 +10,9 @@ import globalStyles from '../../../assets/styles/global.css';
 // Components
 import MintyLogo from '../../components/MintyLogo';
 import CustomButton from '../../components/CustomButton';
+
+// Api's
+import authApi from '../../../api/auth/auth.api';
 
 export default function Login({ navigation, onLayoutRootView }) {
   const [username, setUsername] = useState('');
@@ -22,13 +26,27 @@ export default function Login({ navigation, onLayoutRootView }) {
     setPassword(text);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    const toast = useToast();
+
     if (!username || !password) {
-      Alert.alert('Please enter both username and password');
-      return;
+      toast.show({
+        type: 'error',
+        text1: 'Validation Error',
+        text2: 'Please enter both username and password',
+      });
     }
 
-    navigation.navigate('Dashboard');
+    try {
+      const userAuthenticated = await authApi.login(username, password);
+
+      Alert.alert(userAuthenticated.message);
+
+      navigation.navigate('Dashboard');
+    } catch (error) {
+      Alert.alert(error.message);
+      return;
+    }
 
     setUsername('');
     setPassword('');

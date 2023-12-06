@@ -4,16 +4,30 @@ import WelcomeScreen from './app/screens/auth/WelcomeScreen';
 import LoginScreen from './app/screens/auth/LoginScreen';
 
 // Imports
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+// Api's
+import authApi from './api/auth/auth.api';
+
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const Stack = createNativeStackNavigator();
+
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const checkAuthentication = async () => {
+      const userAuthenticated = await authApi.isAuthenticated();
+      setIsAuthenticated(userAuthenticated);
+    };
+
+    checkAuthentication();
+  }, []);
 
   const fontKeys = {
     PoppinsThin: 'PoppinsThin',
@@ -41,7 +55,9 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator
+        initialRouteName={isAuthenticated ? 'Dashboard' : 'Home'}
+      >
         <Stack.Screen name="Home" options={{ headerShown: false }}>
           {(props) => (
             <WelcomeScreen {...props} onLayoutRootView={onLayoutRootView} />
@@ -53,12 +69,29 @@ export default function App() {
           )}
         </Stack.Screen>
         <Stack.Screen name="Dashboard" options={{ headerShown: false }}>
-          {(props) => (
-            <BottomTabNavigator
-              {...props}
-              onLayoutRootView={onLayoutRootView}
-            />
-          )}
+          {(props) => {
+            if (isAuthenticated) {
+              return (
+                <BottomTabNavigator
+                  {...props}
+                  onLayoutRootView={onLayoutRootView}
+                />
+              );
+            } else {
+              return (
+                <Stack.Screen
+                  name="Login"
+                  options={{ headerShown: false }}
+                  component={(props) => (
+                    <LoginScreen
+                      {...props}
+                      onLayoutRootView={onLayoutRootView}
+                    />
+                  )}
+                />
+              );
+            }
+          }}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
