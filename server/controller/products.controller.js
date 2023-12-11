@@ -13,11 +13,18 @@ export const getProducts = async (req, res) => {
 };
 
 export const createProducts = async (req, res) => {
-  const productData = req.body;
-  const newProduct = new Products(productData);
+  const { name, description, images, totalQuantity, owner } = req.body;
+
+  const newProduct = new Products({
+    name,
+    description,
+    images,
+    totalQuantity,
+    owner,
+  });
 
   try {
-    await newProduct.create();
+    await newProduct.save();
     res.status(201).json(newProduct);
   } catch (error) {
     res.status(409).json({
@@ -74,5 +81,19 @@ export const getOneProducts = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
+  }
+};
+
+export const getOwnerProducts = async (req, res) => {
+  try {
+    const ownerId = req.params.ownerId;
+
+    const getProducts = await Products.find({ owner: ownerId });
+
+    res.status(200).json(getProducts);
+  } catch (error) {
+    res.status(404).json({
+      message: error.message,
+    });
   }
 };

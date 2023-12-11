@@ -1,5 +1,6 @@
 // Imports
 import * as React from 'react';
+import { Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 // Screens
@@ -15,44 +16,44 @@ export default function BottomTabNavigator() {
       <Tab.Screen
         name="Home"
         component={DashboardScreen}
-        options={{ headerShown: false }}
-        // options={{
-        //   tabBarLabel: 'Home',
-        //   tabBarIcon: ({ color, size }) => (
-        //     <Image
-        //       source={require('../../assets/images/icons/icon.png')}
-        //       style={{ width: size, height: size, tintColor: color }}
-        //     />
-        //   ),
-        // }}
+        options={{
+          headerShown: false,
+          tabBarLabel: 'Home',
+          tabBarIcon: ({ color, size }) => (
+            <Image
+              source={require('../../assets/images/bottomTabsIcons/homeIcon.png')}
+              style={{ width: size, height: size, tintColor: color }}
+            />
+          ),
+        }}
       />
       <Tab.Screen
         name="Cart"
         component={CartScreen}
-        options={{ headerShown: false }}
-        // options={{
-        //   tabBarLabel: 'Cart',
-        //   tabBarIcon: ({ color, size }) => (
-        //     <Image
-        //       source={require('../../assets/images/icons/icon.png')}
-        //       style={{ width: size, height: size, tintColor: color }}
-        //     />
-        //   ),
-        // }}
+        options={{
+          headerShown: false,
+          tabBarLabel: 'Cart',
+          tabBarIcon: ({ color, size }) => (
+            <Image
+              source={require('../../assets/images/bottomTabsIcons/cartIcon.png')}
+              style={{ width: size, height: size, tintColor: color }}
+            />
+          ),
+        }}
       />
       <Tab.Screen
         name="Account"
         component={AccountScreen}
-        options={{ headerShown: false }}
-        // options={{
-        //   tabBarLabel: 'Account',
-        //   tabBarIcon: ({ color, size }) => (
-        //     <Image
-        //       source={require('../../assets/images/icons/icon.png')}
-        //       style={{ width: size, height: size, tintColor: color }}
-        //     />
-        //   ),
-        // }}
+        options={{
+          headerShown: false,
+          tabBarLabel: 'Account',
+          tabBarIcon: ({ color, size }) => (
+            <Image
+              source={require('../../assets/images/bottomTabsIcons/cartIcon.png')}
+              style={{ width: size, height: size, tintColor: color }}
+            />
+          ),
+        }}
       />
     </Tab.Navigator>
   );

@@ -16,8 +16,16 @@ export const getUsers = async (req, res) => {
 };
 
 export const registerUser = async (req, res) => {
-  const { firstName, lastName, username, email, address, role, password } =
-    req.body;
+  const {
+    firstName,
+    lastName,
+    username,
+    email,
+    address,
+    role,
+    password,
+    phoneNumber,
+  } = req.body;
 
   try {
     const existingUser = await Users.findOne({ email: email });
@@ -34,6 +42,7 @@ export const registerUser = async (req, res) => {
       address,
       role,
       password,
+      phoneNumber,
     });
 
     await newUser.save();
@@ -60,7 +69,9 @@ export const loginUser = async (req, res) => {
       const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
         expiresIn: '1h',
       });
-      res.status(200).json({ message: 'Login successful', token });
+      res
+        .status(200)
+        .json({ message: 'Login successful', token, userDetails: user });
     } else {
       res.status(401).json({ message: 'Invalid email or password' });
     }

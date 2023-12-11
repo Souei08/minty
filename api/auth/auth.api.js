@@ -7,8 +7,10 @@ const authApi = {
     try {
       const response = await headers.post('/users/login', { email, password });
       const token = response.data.token;
+      const userDetails = response.data.userDetails;
 
       await storage.storeToken(token);
+      await storage.storeAuthUser(userDetails);
 
       return response.data;
     } catch (error) {

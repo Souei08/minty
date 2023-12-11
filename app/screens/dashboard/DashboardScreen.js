@@ -1,13 +1,13 @@
 // Imports
 import { StatusBar } from 'expo-status-bar';
-import { Image, ScrollView, Text, TextInput, View } from 'react-native';
+import { FlatList, Image, Text, TextInput, View } from 'react-native';
 
 // Styles
 import dashboardStyles from '../../../assets/styles/dashboard.css';
 import CustomButton from '../../components/CustomButton';
 import styles from '../../../assets/styles/global.css';
 
-export default function DashboardScreen({ onLayoutRootView }) {
+export default function DashboardScreen({ onLayoutRootView, authUser }) {
   // Test Data
   const DummyTestProducts = Array.from({ length: 20 }, (_, i) => {
     const randomPrice = (Math.random() * (10000 - 5000) + 10).toFixed(2);
@@ -19,8 +19,30 @@ export default function DashboardScreen({ onLayoutRootView }) {
     };
   });
 
+  console.log(authUser);
+
+  const renderItem = ({ item }) => (
+    <View key={item.id} style={dashboardStyles.Items}>
+      <Image
+        source={item.productImage}
+        style={dashboardStyles.ItemsProductImage}
+      />
+
+      <View style={dashboardStyles.ItemsProductTextContainer}>
+        <Text
+          style={[styles.body, { color: '#000', fontFamily: 'PoppinsBold' }]}
+        >
+          {item.productName}
+        </Text>
+        <Text style={[styles.body, { color: '#000', marginTop: 0 }]}>
+          {item.productPrice}
+        </Text>
+      </View>
+    </View>
+  );
+
   return (
-    <ScrollView style={dashboardStyles.Container} onLayout={onLayoutRootView}>
+    <View style={dashboardStyles.Container} onLayout={onLayoutRootView}>
       {/* Header */}
       <View style={dashboardStyles.Navigation}>
         <View style={dashboardStyles.InnerContainer}>
@@ -61,31 +83,15 @@ export default function DashboardScreen({ onLayoutRootView }) {
       </View>
 
       <View style={dashboardStyles.ItemsContainer}>
-        {DummyTestProducts.map((product) => (
-          <View key={product.id} style={dashboardStyles.Items}>
-            <Image
-              source={product.productImage}
-              style={dashboardStyles.ItemsProductImage}
-            />
-
-            <View style={dashboardStyles.ItemsProductTextContainer}>
-              <Text
-                style={[
-                  styles.body,
-                  { color: '#000', fontFamily: 'PoppinsBold' },
-                ]}
-              >
-                {product.productName}
-              </Text>
-              <Text style={[styles.body, { color: '#000', marginTop: 0 }]}>
-                {product.productPrice}
-              </Text>
-            </View>
-          </View>
-        ))}
+        <FlatList
+          data={DummyTestProducts}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id.toString()}
+          numColumns={2}
+        />
       </View>
 
       <StatusBar style="auto" />
-    </ScrollView>
+    </View>
   );
 }

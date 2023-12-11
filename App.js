@@ -13,20 +13,37 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // Api's
 import authApi from './api/auth/auth.api';
 
+// Utils
+import storage from './utils/storage';
+
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const Stack = createNativeStackNavigator();
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authUser, setAuthUser] = useState(null);
 
   useEffect(() => {
-    const checkAuthentication = async () => {
-      const userAuthenticated = await authApi.isAuthenticated();
-      setIsAuthenticated(userAuthenticated);
+    const fetchData = async () => {
+      try {
+        const [userAuthenticated, authUser] = await Promise.all([
+          authApi.isAuthenticated(),
+          storage.getAuthUser(),
+        ]);
+
+        console.log('Fetched authUser:', authUser);
+
+        setIsAuthenticated(userAuthenticated);
+        setAuthUser(authUser);
+
+        console.log('Updated authUser:', authUser);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
     };
 
-    checkAuthentication();
+    fetchData();
   }, []);
 
   const fontKeys = {
@@ -55,43 +72,36 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName={isAuthenticated ? 'Dashboard' : 'Home'}
-      >
+      <Stack.Navigator initialRouteName={'Home'}>
         <Stack.Screen name="Home" options={{ headerShown: false }}>
           {(props) => (
-            <WelcomeScreen {...props} onLayoutRootView={onLayoutRootView} />
+            <WelcomeScreen
+              {...props}
+              onLayoutRootView={onLayoutRootView}
+              authUser={authUser}
+            />
           )}
         </Stack.Screen>
         <Stack.Screen name="Login" options={{ headerShown: false }}>
           {(props) => (
-            <LoginScreen {...props} onLayoutRootView={onLayoutRootView} />
+            <LoginScreen
+              {...props}
+              onLayoutRootView={onLayoutRootView}
+              authUser={authUser}
+            />
           )}
         </Stack.Screen>
-        <Stack.Screen name="Dashboard" options={{ headerShown: false }}>
-          {(props) => {
-            if (isAuthenticated) {
-              return (
-                <BottomTabNavigator
-                  {...props}
-                  onLayoutRootView={onLayoutRootView}
-                />
-              );
-            } else {
-              return (
-                <Stack.Screen
-                  name="Login"
-                  options={{ headerShown: false }}
-                  component={(props) => (
-                    <LoginScreen
-                      {...props}
-                      onLayoutRootView={onLayoutRootView}
-                    />
-                  )}
-                />
-              );
-            }
-          }}
+        <Stack.Screen
+          name="Dashboard"
+          options={{ headerShown: false, headerLeft: null }}
+        >
+          {(props) => (
+            <BottomTabNavigator
+              {...props}
+              onLayoutRootView={onLayoutRootView}
+              authUser={authUser}
+            />
+          )}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>

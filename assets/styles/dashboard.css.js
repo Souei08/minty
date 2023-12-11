@@ -65,21 +65,17 @@ const dashboardStyles = StyleSheet.create({
 
   ItemsContainer: {
     flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignitems: 'flex-start',
-    marginLeft: 35,
-    marginVertical: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   Items: {
-    width: '50%',
-    marginVertical: 10,
+    margin: 10,
   },
 
   ItemsProductImage: {
     borderRadius: 10,
-    width: 155,
+    aspectRatio: 1 / 1,
     height: 150,
     resizeMode: 'cover',
   },

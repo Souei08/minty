@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 
 import productRoutes from './routes/products.js';
 import userRoutes from './routes/users.js';
-import authMiddleware from './middleware/authMiddleware.js';
+import authMiddleware from './middleware/authenticated.middleware.js';
 
 dotenv.config();
 

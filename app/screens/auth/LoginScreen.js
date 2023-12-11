@@ -2,7 +2,6 @@
 import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Alert, Text, TextInput, View } from 'react-native';
-import { useToast } from 'react-native-toast-message';
 
 // Styles
 import globalStyles from '../../../assets/styles/global.css';
@@ -27,14 +26,10 @@ export default function Login({ navigation, onLayoutRootView }) {
   };
 
   const handleSubmit = async () => {
-    const toast = useToast();
-
     if (!username || !password) {
-      toast.show({
-        type: 'error',
-        text1: 'Validation Error',
-        text2: 'Please enter both username and password',
-      });
+      Alert.alert('Please provide email and password');
+
+      return false;
     }
 
     try {
