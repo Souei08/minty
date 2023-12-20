@@ -13,7 +13,12 @@ import CustomButton from '../../components/CustomButton';
 // Api's
 import authApi from '../../../api/auth/auth.api';
 
+// Context
+import { useAuth } from '../../../context/AuthContext';
+
 export default function Login({ navigation, onLayoutRootView }) {
+  const { login } = useAuth();
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -37,7 +42,7 @@ export default function Login({ navigation, onLayoutRootView }) {
 
       Alert.alert(userAuthenticated.message);
 
-      navigation.navigate('Dashboard');
+      login();
     } catch (error) {
       Alert.alert(error.message);
       return;

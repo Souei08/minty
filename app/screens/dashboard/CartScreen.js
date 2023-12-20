@@ -15,83 +15,46 @@ import dashboardStyles from '../../../assets/styles/dashboard.css';
 import styles from '../../../assets/styles/global.css';
 import cartStyles from '../../../assets/styles/cart.css.js';
 
-export default function CartScreen() {
-  const [checkedItems, setCheckedItems] = useState({});
+// Context
+import { useAuth } from '../../../context/AuthContext.js';
+import CustomButton from '../../components/CustomButton.js';
 
-  // Test Data
-  const DummyTestProducts = Array.from({ length: 50 }, (_, i) => {
-    return {
-      id: i + 1,
-      productName: `Product ${i + 1}`,
-      productImage: require(`../../../assets/images/TestProducts/renzle.jpg`),
-      productPrice: `₱ 200`,
-    };
-  });
+export default function CartScreen({ onLayoutRootView }) {
+  const { removeFromCart, cart } = useAuth();
 
-  const totalPrice = Object.values(checkedItems).reduce((acc, isChecked) => {
-    if (isChecked) {
-      return acc + 100;
-    }
-    return acc;
+  let sum = cart.reduce((accumulator, currentObject) => {
+    return accumulator + (currentObject.price ? currentObject.price : 0);
   }, 0);
 
   return (
-    <View style={dashboardStyles.Container}>
+    <View style={dashboardStyles.Container} onLayout={onLayoutRootView}>
       {/* Header Navigation */}
-      <View style={dashboardStyles.Navigation}>
+      <View style={[dashboardStyles.Navigation, { height: 120 }]}>
         <Text
           style={[styles.subHeading, { color: '#000', textAlign: 'center' }]}
         >
           Cart
         </Text>
-
-        <TextInput
-          style={[
-            styles.inputWhiteBackground,
-            dashboardStyles.HeaderSearchInput,
-          ]}
-          placeholder="Kamuning Street, El Rio Vista Village"
-          placeholderTextColor="#81868C"
-        />
       </View>
 
       {/* Checkout Container  */}
       <ScrollView style={cartStyles.CheckoutContainer}>
         <View style={cartStyles.CheckoutInnerContainer}>
           <Text style={[styles.subHeading, { color: '#000', marginBottom: 5 }]}>
-            Select All
+            Checkout Products
           </Text>
 
-          {DummyTestProducts.map((product) => (
+          {cart.map((product) => (
             <View style={cartStyles.CheckoutItems} key={product.id}>
-              <Checkbox
-                color="#FFCD17"
-                style={cartStyles.ItemsCheckbox}
-                value={!!checkedItems[product.id]}
-                onValueChange={(val) => {
-                  console.log(`Checkbox ID: ${product.id}, Value: ${val}`);
-
-                  setCheckedItems((prevCheckedItems) => {
-                    const updatedItems = { ...prevCheckedItems };
-
-                    if (val) {
-                      updatedItems[product.id] = true;
-                    } else {
-                      delete updatedItems[product.id];
-                    }
-
-                    return updatedItems;
-                  });
-                }}
-              />
-
               <Image
-                source={product.productImage}
+                source={{
+                  uri: product.images[0],
+                }}
                 style={cartStyles.ItemsImage}
               />
               <View>
                 <Text style={[styles.body, { color: '#000' }]}>
-                  {product.productName}
+                  {product.title}
                 </Text>
                 <Text
                   style={[
@@ -99,24 +62,47 @@ export default function CartScreen() {
                     { color: '#000', fontFamily: 'PoppinsBold' },
                   ]}
                 >
-                  {product.productPrice}
+                  ${product.price}
                 </Text>
               </View>
+
+              <TouchableOpacity
+                onPress={() => removeFromCart(product.id)}
+                style={{
+                  marginLeft: 'auto',
+                }}
+              >
+                <Text
+                  style={{
+                    fontFamily: 'PoppinsBold',
+                    textDecorationLine: 'underline',
+                  }}
+                >
+                  Remove
+                </Text>
+              </TouchableOpacity>
             </View>
           ))}
         </View>
       </ScrollView>
 
       {/* Checkout Total Container  */}
-      <View style={cartStyles.CheckoutContainer}>
+      <View
+        style={{
+          marginHorizontal: 20,
+          backgroundColor: '#fff',
+          borderRadius: 5,
+          padding: 20,
+        }}
+      >
         <View
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            justifyContent: 'center',
+            justifyContent: 'space-between',
           }}
         >
-          <View style={{ flex: 1 }}>
+          <View>
             <Text
               style={[
                 styles.body,
@@ -127,21 +113,17 @@ export default function CartScreen() {
                 },
               ]}
             >
-              Amount Price: ₱ {totalPrice}
+              Amount Price: ₱ {sum}
             </Text>
           </View>
-          <TouchableOpacity
-            style={[cartStyles.CheckoutButton, { marginLeft: 10 }]}
-          >
-            <Text
-              style={[
-                styles.body,
-                { color: '#000', fontFamily: 'PoppinsBold' },
-              ]}
-            >
-              Checkout
-            </Text>
-          </TouchableOpacity>
+          <CustomButton
+            buttonText={'Checkout'}
+            buttonTextStyle={styles.body}
+            buttonContainerStyle={[
+              dashboardStyles.OfferCardButtonContainer,
+              { marginTop: 0 },
+            ]}
+          />
         </View>
       </View>
     </View>

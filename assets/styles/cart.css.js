@@ -17,6 +17,10 @@ const cartStyles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    marginVertical: 15,
+    paddingBottom: 10,
+    borderBottomWidth: 1,
+    borderColor: '#ccc',
   },
 
   ItemsCheckbox: {
@@ -24,8 +28,8 @@ const cartStyles = StyleSheet.create({
     marginRight: 10,
   },
   ItemsImage: {
-    width: 50,
-    height: 50,
+    width: 60,
+    height: 60,
     marginRight: 20,
     borderRadius: 5,
   },
