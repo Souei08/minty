@@ -19,8 +19,8 @@ import cartStyles from '../../../assets/styles/cart.css.js';
 import { useAuth } from '../../../context/AuthContext.js';
 import CustomButton from '../../components/CustomButton.js';
 
-export default function CartScreen({ onLayoutRootView }) {
-  const { removeFromCart, cart } = useAuth();
+export default function CartScreen({ navigation, onLayoutRootView }) {
+  const { removeFromCart, cart, clearCart } = useAuth();
 
   let sum = cart.reduce((accumulator, currentObject) => {
     return accumulator + (currentObject.price ? currentObject.price : 0);
@@ -44,45 +44,65 @@ export default function CartScreen({ onLayoutRootView }) {
             Checkout Products
           </Text>
 
-          {cart.map((product) => (
-            <View style={cartStyles.CheckoutItems} key={product.id}>
-              <Image
-                source={{
-                  uri: product.images[0],
-                }}
-                style={cartStyles.ItemsImage}
-              />
-              <View>
-                <Text style={[styles.body, { color: '#000' }]}>
-                  {product.title}
-                </Text>
-                <Text
-                  style={[
-                    styles.body,
-                    { color: '#000', fontFamily: 'PoppinsBold' },
-                  ]}
-                >
-                  ${product.price}
-                </Text>
-              </View>
-
-              <TouchableOpacity
-                onPress={() => removeFromCart(product.id)}
+          {cart.length === 0 ? (
+            <View
+              style={{
+                flex: 1,
+                alignContent: 'center',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Text
                 style={{
-                  marginLeft: 'auto',
+                  fontFamily: 'PoppinsRegular',
+                  marginTop: 20,
                 }}
               >
-                <Text
+                Cart is Empty
+              </Text>
+            </View>
+          ) : (
+            cart.map((product) => (
+              <View style={cartStyles.CheckoutItems} key={product.id}>
+                <Image
+                  source={{
+                    uri: product.images[0],
+                  }}
+                  style={cartStyles.ItemsImage}
+                />
+                <View>
+                  <Text style={[styles.body, { color: '#000' }]}>
+                    {product.title}
+                  </Text>
+                  <Text
+                    style={[
+                      styles.body,
+                      { color: '#000', fontFamily: 'PoppinsBold' },
+                    ]}
+                  >
+                    ${product.price}
+                  </Text>
+                </View>
+
+                <TouchableOpacity
+                  onPress={() => removeFromCart(product.id)}
                   style={{
-                    fontFamily: 'PoppinsBold',
-                    textDecorationLine: 'underline',
+                    marginLeft: 'auto',
                   }}
                 >
-                  Remove
-                </Text>
-              </TouchableOpacity>
-            </View>
-          ))}
+                  <Text
+                    style={{
+                      fontFamily: 'PoppinsBold',
+                      textDecorationLine: 'underline',
+                    }}
+                  >
+                    Remove
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            ))
+          )}
         </View>
       </ScrollView>
 
@@ -117,11 +137,20 @@ export default function CartScreen({ onLayoutRootView }) {
             </Text>
           </View>
           <CustomButton
+            onPress={() => {
+              if (cart.length !== 0) {
+                clearCart();
+                navigation.navigate('ThankYouScreen');
+              }
+            }}
             buttonText={'Checkout'}
             buttonTextStyle={styles.body}
             buttonContainerStyle={[
               dashboardStyles.OfferCardButtonContainer,
               { marginTop: 0 },
+              cart.length === 0 && {
+                backgroundColor: '#ccc',
+              },
             ]}
           />
         </View>

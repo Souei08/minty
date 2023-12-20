@@ -29,8 +29,7 @@ const productApi = {
 
   searchProduct: async (searchVal) => {
     try {
-      const response = await headers.get(`/products/
-      ?title=${searchVal}&price_min=${searchVal}&price_max=${searchVal}`);
+      const response = await headers.get(`/products/?title=${searchVal}`);
 
       return response.data;
     } catch (error) {

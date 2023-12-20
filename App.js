@@ -23,13 +23,55 @@ import authApi from './api/auth/auth.api';
 
 // UseContext
 import { AuthProvider, useAuth } from './context/AuthContext';
-import storage from './utils/storage';
+import ThankYouScreen from './app/screens/dashboard/ThankYouScreen';
+
+function HomeTabs({ onLayoutRootView }) {
+  const Tab = createBottomTabNavigator();
+
+  return (
+    <Tab.Navigator>
+      <Tab.Screen
+        name="Home"
+        options={{
+          headerShown: false,
+          tabBarLabel: 'Home',
+          tabBarIcon: ({ color, size }) => (
+            <Image
+              source={require('./assets/images/bottomTabsIcons/homeIcon.png')}
+              style={{ width: size, height: size, tintColor: color }}
+            />
+          ),
+        }}
+      >
+        {(props) => (
+          <DashboardScreen {...props} onLayoutRootView={onLayoutRootView} />
+        )}
+      </Tab.Screen>
+      <Tab.Screen
+        name="Cart"
+        options={{
+          headerShown: false,
+          tabBarLabel: 'Cart',
+          tabBarIcon: ({ color, size }) => (
+            <Image
+              source={require('./assets/images/bottomTabsIcons/cartIcon.png')}
+              style={{ width: size, height: size, tintColor: color }}
+            />
+          ),
+        }}
+      >
+        {(props) => (
+          <CartScreen {...props} onLayoutRootView={onLayoutRootView} />
+        )}
+      </Tab.Screen>
+    </Tab.Navigator>
+  );
+}
 
 function AppContext() {
   const { isAuthenticated, login, logout } = useAuth();
 
   const Stack = createNativeStackNavigator();
-  const Tab = createBottomTabNavigator();
   SplashScreen.preventAutoHideAsync();
 
   useEffect(() => {
@@ -93,64 +135,26 @@ function AppContext() {
           </Stack.Screen>
         </Stack.Navigator>
       ) : (
-        <Tab.Navigator
-          screenOptions={({ route }) => ({
-            tabBarVisible: () => {
-              if (route.name === 'ProductDetails') {
-                return false;
-              }
-              return true; // Show other tabs
-            },
-          })}
-        >
-          <Tab.Screen
-            name="Home"
-            options={{
-              headerShown: false,
-              tabBarLabel: 'Home',
-              tabBarIcon: ({ color, size }) => (
-                <Image
-                  source={require('./assets/images/bottomTabsIcons/homeIcon.png')}
-                  style={{ width: size, height: size, tintColor: color }}
-                />
-              ),
-            }}
-          >
+        <Stack.Navigator>
+          <Stack.Screen name="HomeTabs" options={{ headerShown: false }}>
             {(props) => (
-              <DashboardScreen {...props} onLayoutRootView={onLayoutRootView} />
+              <HomeTabs {...props} onLayoutRootView={onLayoutRootView} />
             )}
-          </Tab.Screen>
-          <Tab.Screen
-            name="Cart"
-            options={{
-              headerShown: false,
-              tabBarLabel: 'Cart',
-              tabBarIcon: ({ color, size }) => (
-                <Image
-                  source={require('./assets/images/bottomTabsIcons/homeIcon.png')}
-                  style={{ width: size, height: size, tintColor: color }}
-                />
-              ),
-            }}
-          >
-            {(props) => (
-              <CartScreen {...props} onLayoutRootView={onLayoutRootView} />
-            )}
-          </Tab.Screen>
-          <Tab.Screen
-            name="ProductDetails"
-            options={{
-              headerShown: false,
-            }}
-          >
+          </Stack.Screen>
+          <Stack.Screen name="ProductDetails" options={{ headerShown: false }}>
             {(props) => (
               <ProductDetailScreen
                 {...props}
                 onLayoutRootView={onLayoutRootView}
               />
             )}
-          </Tab.Screen>
-        </Tab.Navigator>
+          </Stack.Screen>
+          <Stack.Screen name="ThankYouScreen" options={{ headerShown: false }}>
+            {(props) => (
+              <ThankYouScreen {...props} onLayoutRootView={onLayoutRootView} />
+            )}
+          </Stack.Screen>
+        </Stack.Navigator>
       )}
     </NavigationContainer>
   );

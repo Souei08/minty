@@ -65,8 +65,8 @@ const authApi = {
   getLoginUser: async () => {
     try {
       const response = await headers.get(`/auth/profile`);
-      console.log(response.data);
-      // await storage.storeAuthUser(response.data);
+      await storage.storeAuthUser(response.data);
+
       return response.data;
     } catch (error) {
       console.log(error);

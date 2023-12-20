@@ -18,6 +18,10 @@ export const AuthProvider = ({ children }) => {
     setCart((prevCart) => prevCart.filter((item) => item.id !== itemId));
   };
 
+  const clearCart = (itemId) => {
+    setCart([]);
+  };
+
   const login = () => {
     setIsAuthenticated(true);
   };
@@ -41,6 +45,7 @@ export const AuthProvider = ({ children }) => {
         setAuthUser,
         setViewProduct,
         setSearchValue,
+        clearCart,
       }}
     >
       {children}

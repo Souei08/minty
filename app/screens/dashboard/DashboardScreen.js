@@ -23,23 +23,47 @@ import { useAuth } from '../../../context/AuthContext';
 
 // Components
 import CustomButton from '../../components/CustomButton';
+import storage from '../../../utils/storage';
+
+// Tips
+import ecoTipsAndResources from '../../../utils/tips';
+import react from 'react';
+
+const randomTip =
+  ecoTipsAndResources[Math.floor(Math.random() * ecoTipsAndResources.length)];
 
 export default function DashboardScreen({ navigation, onLayoutRootView }) {
-  const { setViewProduct } = useAuth();
+  const { setViewProduct, logout } = useAuth();
 
   const [products, setProducts] = useState([]);
   const [loginUser, setLoginUser] = useState([]);
-  const [offset, setOffset] = useState(0);
+
   const [loading, setLoading] = useState(false);
+  const [offset, setOffset] = useState(0);
   const limit = 10;
+
+  const [searchValue, setSearchValue] = useState(null);
 
   const fetchAllProduct = async () => {
     try {
+      setLoading(true);
       const products = await productApi.getAllProducts(offset, limit);
       const user = await authApi.getLoginUser();
 
       setLoginUser(user);
       setProducts((prevProducts) => [...prevProducts, ...products]);
+      setLoading(false);
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  const searchProduct = async () => {
+    try {
+      setLoading(true);
+      const searchResult = await productApi.searchProduct(searchValue);
+
+      setProducts(searchResult);
       setLoading(false);
     } catch (error) {
       alert(error.message);
@@ -57,14 +81,15 @@ export default function DashboardScreen({ navigation, onLayoutRootView }) {
 
   useEffect(() => {
     if (!loading) {
-      console.log('Getting Products Processing...');
-      fetchAllProduct();
-    } else {
-      console.log('Standby..');
+      if (searchValue !== null) {
+        searchProduct();
+      } else {
+        fetchAllProduct();
+      }
     }
-  }, [navigation, offset]);
+  }, [navigation, offset, searchValue]);
 
-  const renderItem = ({ item }) => (
+  const MemoizedItem = react.memo(({ item }) => (
     <TouchableOpacity
       key={item.id}
       style={dashboardStyles.Items}
@@ -86,7 +111,9 @@ export default function DashboardScreen({ navigation, onLayoutRootView }) {
         </Text>
       </View>
     </TouchableOpacity>
-  );
+  ));
+
+  const renderItem = ({ item }) => <MemoizedItem item={item} />;
 
   return (
     <View style={dashboardStyles.Container} onLayout={onLayoutRootView}>
@@ -96,7 +123,24 @@ export default function DashboardScreen({ navigation, onLayoutRootView }) {
           <Text style={[styles.subHeading, { color: '#000' }]}>
             Welcome, {loginUser?.name}
           </Text>
-          <Text style={[styles.subHeading, { color: '#000' }]}>Icon</Text>
+          {/* <Text style={[styles.subHeading, { color: '#000' }]}>Icon</Text> */}
+          <TouchableOpacity
+            onPress={() => {
+              storage.clearToken();
+              logout();
+            }}
+          >
+            <Image
+              source={{
+                uri: loginUser?.avatar,
+              }}
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: 100,
+              }}
+            />
+          </TouchableOpacity>
         </View>
 
         <TextInput
@@ -106,20 +150,23 @@ export default function DashboardScreen({ navigation, onLayoutRootView }) {
           ]}
           placeholder="Search"
           placeholderTextColor="#81868C"
+          value={searchValue}
+          onChangeText={(val) => {
+            if (val.length === 0) {
+              setProducts([]);
+              setSearchValue(null);
+            } else {
+              setSearchValue(val);
+            }
+          }}
         />
       </View>
 
       {/* Dashboard Card */}
       <View style={dashboardStyles.OfferCard}>
         <View style={dashboardStyles.OfferCardInner}>
-          <Text style={[styles.subHeading, { textAlign: 'center' }]}>
-            Special Limited-Time Offer: Go Green with Savings!{' '}
-          </Text>
-          <CustomButton
-            buttonText={'% Up to 50%'}
-            buttonTextStyle={styles.body}
-            buttonContainerStyle={dashboardStyles.OfferCardButtonContainer}
-          />
+          <Text style={[styles.subHeading]}>{randomTip.tip}</Text>
+          <Text style={[styles.body]}>{randomTip.resource}</Text>
         </View>
       </View>
 
@@ -135,7 +182,7 @@ export default function DashboardScreen({ navigation, onLayoutRootView }) {
           keyExtractor={(item) => item.id.toString()}
           numColumns={2}
           onEndReached={handleLoadMore}
-          onEndReachedThreshold={0.5}
+          onEndReachedThreshold={0.1}
         />
       </View>
 

@@ -33,7 +33,7 @@ const dashboardStyles = StyleSheet.create({
     backgroundColor: '#4F6F52',
     padding: 20,
     marginHorizontal: 30,
-    marginVertical: 30,
+    marginVertical: 15,
     borderRadius: 10,
     position: 'relative',
   },
@@ -41,8 +41,8 @@ const dashboardStyles = StyleSheet.create({
   OfferCardInner: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
   },
 
   OfferCardButtonContainer: {
